@@ -1,0 +1,13 @@
+version: latest
+
+services:
+  app:
+    extends:
+      file: docker-compose.base.yml
+      service: nx-app-base
+    command: yarn nx run app:serve
+    ports:
+      - 4200:4200
+
+volumes:
+  mono-node-modules: null
