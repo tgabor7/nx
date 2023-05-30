@@ -16,6 +16,9 @@
         "name": "next"
       }
     ],
+    "paths": {
+      "~/*": ["./*"]
+    },
     "types": ["jest", "node"]
   },
   "include": [
@@ -25,7 +28,8 @@
     "**/*.jsx",
     "../../packages/app/.next/types/**/*.ts",
     "../../dist/packages/app/.next/types/**/*.ts",
-    "next-env.d.ts"
+    "next-env.d.ts",
+    "env.mjs"
   ],
   "exclude": [
     "node_modules",
