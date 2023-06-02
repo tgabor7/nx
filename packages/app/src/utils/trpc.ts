@@ -1,6 +1,9 @@
 import { httpBatchLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
-import { AppRouter } from '../pages/api/trpc/[trpc]';
+import superjson from 'superjson';
+import { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
+import { AppRouter } from '@app/server/api/root';
+
 function getBaseUrl() {
   if (typeof window !== 'undefined')
     // browser should use relative path
@@ -14,9 +17,11 @@ function getBaseUrl() {
   // assume localhost
   return `http://localhost:${process.env.PORT ?? 3000}`;
 }
+
 export const trpc = createTRPCNext<AppRouter>({
-  config(opts) {
+  config() {
     return {
+      transformer: superjson,
       links: [
         httpBatchLink({
           /**
@@ -39,3 +44,7 @@ export const trpc = createTRPCNext<AppRouter>({
    **/
   ssr: false,
 });
+
+export type RouterInputs = inferRouterInputs<AppRouter>;
+
+export type RouterOutputs = inferRouterOutputs<AppRouter>;

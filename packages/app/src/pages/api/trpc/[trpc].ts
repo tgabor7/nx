@@ -1,35 +1,17 @@
-import * as trpcNext from '@trpc/server/adapters/next';
-import { z } from 'zod';
-import { publicProcedure, router } from '../../../server/trpc';
+import { appRouter } from '@app/server/api/root';
+import { createTRPCContext } from '@app/server/api/trpc';
+import { createNextApiHandler } from '@trpc/server/adapters/next';
+import { env } from '@app/env.mjs';
 
-const appRouter = router({
-  greeting: publicProcedure
-    // This is the input schema of your procedure
-    // 💡 Tip: Try changing this and see type errors on the client straight away
-    .input(
-      z.object({
-        name: z.string().nullish(),
-      }),
-    )
-    .query(({ input }) => {
-      // This is what you're returning to your client
-      return {
-        text: `hello ${input?.name ?? 'world'}`,
-        // 💡 Tip: Try adding a new property here and see it propagate to the client straight-away
-      };
-    }),
-  // 💡 Tip: Try adding a new procedure here and see if you can use it in the client!
-  // getUser: publicProcedure.query(() => {
-  //   return { id: '1', name: 'bob' };
-  // }),
-});
-
-// export only the type definition of the API
-// None of the actual implementation is exposed to the client
-export type AppRouter = typeof appRouter;
-
-// export API handler
-export default trpcNext.createNextApiHandler({
+export default createNextApiHandler({
   router: appRouter,
-  createContext: () => ({}),
+  createContext: createTRPCContext,
+  onError:
+    env.NODE_ENV === 'development'
+      ? ({ path, error }) => {
+          console.error(
+            `❌ tRPC failed on ${path ?? '<no-path>'}: ${error.message}`,
+          );
+        }
+      : undefined,
 });
