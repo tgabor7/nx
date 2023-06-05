@@ -10,8 +10,12 @@ services:
       - db
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+      - WATCHPACK_POLLING=true
     ports:
       - 4200:4200
+
+    volumes:
+      - .:/app
 
   db:
     image: postgres:latest

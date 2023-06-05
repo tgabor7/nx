@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { trpc } from '../utils/trpc';
 
 export default function IndexPage() {
@@ -9,7 +10,9 @@ export default function IndexPage() {
   }
   return (
     <div>
-      <p>{JSON.stringify(hello.data)}</p>
+      <Suspense fallback={<div>Loading...</div>}>
+        <p>{JSON.stringify(hello.data)}</p>
+      </Suspense>
     </div>
   );
 }
