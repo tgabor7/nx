@@ -30,7 +30,7 @@
     "publish": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["npm publish dist/packages/cli"]
+        "commands": ["npm publish dist/packages/cli --access public"]
       }
     }
   },
