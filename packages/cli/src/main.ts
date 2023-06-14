@@ -2,7 +2,7 @@
 import { createInterface } from 'readline';
 import { fileURLToPath } from 'url';
 import * as path from 'path';
-import fs from 'fs-extra';
+import * as fs from 'fs-extra';
 
 const main = async () => {
   const readline = createInterface({
