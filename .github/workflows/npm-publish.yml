@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 16
       - run: npm ci
-      - run: npx nx run cli:build
+      - run: npx nx run create-nxt-project:build
 
   publish-npm:
     needs: build
@@ -28,7 +28,7 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org/
       - run: npm ci
-      - run: npx nx run cli:build
-      - run: npx nx run cli:publish
+      - run: npx nx run create-nxt-project:build
+      - run: npx nx run create-nxt-project:publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
